@@ -36,7 +36,10 @@ if [ ${#FIND_PATHS[*]} -eq 0 ]; then
 fi
 
 for layer in $(cat aufs/layers/$CID); do
-	shortid="$(echo "$layer" | cut -c-12)"
+	shortid="${layer:0:12}"
+	if [[ "$layer" = *-init ]]; then
+		shortid="${shortid}-init"
+	fi
 	find ${FIND_PATHS[*]/#/$(pwd)\/aufs\/diff\/$layer} \
 		${FIND_OPTIONS[*]} 2>/dev/null \
 		| sed -r "s!^$(pwd)/aufs/diff/$layer!$shortid:!" \
