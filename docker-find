@@ -4,7 +4,7 @@ set -e
 
 cd /var/lib/docker
 
-if [ $# -eq 0 ]; then
+if [[ $# -eq 0 ]]; then
 	echo 2>&1 'Usage: docker-find CONTAINER'
 	exit 1
 fi
@@ -14,7 +14,7 @@ shift
 
 FIND_PATHS=()
 FIND_OPTIONS=()
-while [ $# -gt 0 ]; do
+while [[ $# -gt 0 ]]; do
 	case "$1" in
 		-*|!)
 			FIND_OPTIONS=("$@")
@@ -31,8 +31,13 @@ while [ $# -gt 0 ]; do
 	shift
 done
 
-if [ ${#FIND_PATHS[*]} -eq 0 ]; then
+if [[ ${#FIND_PATHS[*]} -eq 0 ]]; then
 	FIND_PATHS=("/")
+fi
+
+if [[ ! -d aufs/layers ]]; then
+	echo 2>&1 'docker-find only supports AUFS'
+	exit 1
 fi
 
 for layer in $(cat aufs/layers/$CID); do
