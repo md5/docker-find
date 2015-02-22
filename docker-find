@@ -20,15 +20,25 @@ while [ $# -gt 0 ]; do
 			FIND_OPTIONS=("$@")
 			break
 			;;
-		*)
+		/*)
 			FIND_PATHS+=("$1")
+			;;
+		*)
+			FIND_PATHS+=("/$1")
 			;;
 	esac
 
 	shift
 done
 
+if [ ${#FIND_PATHS[*]} -eq 0 ]; then
+	FIND_PATHS=("/")
+fi
+
 for layer in $(cat aufs/layers/$CID); do
-	find "${FIND_PATHS[*]/#/$(pwd)\/aufs\/diff\/$layer\/}" \
-		"${FIND_OPTIONS[*]}" 2>/dev/null || true
+	shortid="$(echo "$layer" | cut -c-12)"
+	find ${FIND_PATHS[*]/#/$(pwd)\/aufs\/diff\/$layer} \
+		${FIND_OPTIONS[*]} 2>/dev/null \
+		| sed -r "s!^$(pwd)/aufs/diff/$layer!$shortid:!" \
+		|| true
 done
