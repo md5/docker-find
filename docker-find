@@ -42,6 +42,6 @@ for layer in $(cat aufs/layers/$CID); do
 	fi
 	find ${FIND_PATHS[*]/#/$(pwd)\/aufs\/diff\/$layer} \
 		${FIND_OPTIONS[*]} 2>/dev/null \
-		| sed -r "s!^$(pwd)/aufs/diff/$layer!$shortid:!" \
+		| sed -r "s!$(pwd)/aufs/diff/$layer!$shortid:!" \
 		|| true
 done
