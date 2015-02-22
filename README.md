@@ -16,3 +16,7 @@ you can run `docker-find` from its Docker image:
         -v /var/lib/docker:/var/lib/docker:ro \
         -v /var/run/docker.sock:/tmp/docker.sock \
         mdillon/docker-find CONTAINER_OR_IMAGE_NAME / -name '*.sh'
+
+## License
+
+MIT
