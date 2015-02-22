@@ -2,6 +2,8 @@
 
 Utility to run `find(1)` inside each layer of a Docker image or container. Useful if you want to figure out which layer of a Docker image contributed a particular file or directory.
 
+**Note**: `docker-find` currently supports only AUFS-based Docker installations. Support for other storage drivers may be added in future revisions.
+
 ## Usage
 
 If you have a shell directly on the Docker host, install `docker-find` somewhere on your `PATH` and use it like you would use `find` (include `sudo` if you are not running as `root`):
