@@ -5,7 +5,7 @@ set -e
 cd /var/lib/docker
 
 if [[ $# -eq 0 ]]; then
-	echo 2>&1 'Usage: docker-find CONTAINER'
+	echo 2>&1 'Usage: docker-find CONTAINER [FIND ARGUMENTS]'
 	exit 1
 fi
 
