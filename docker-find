@@ -5,11 +5,11 @@ set -e
 cd /var/lib/docker
 
 if [[ $# -eq 0 ]]; then
-	echo 2>&1 'Usage: docker-find CONTAINER [FIND ARGUMENTS]'
+	echo 2>&1 'Usage: docker-find CONTAINER_OR_IMAGE [FIND ARGUMENTS]'
 	exit 1
 fi
 
-CID="$(docker inspect -f '{{.Id}}' "$1")"
+ID="$(docker inspect -f '{{.Id}}' "$1")"
 shift
 
 FIND_PATHS=()
@@ -40,7 +40,7 @@ if [[ ! -d aufs/layers ]]; then
 	exit 1
 fi
 
-for layer in $(cat aufs/layers/$CID); do
+for layer in $ID $(cat aufs/layers/$ID); do
 	shortid="${layer:0:12}"
 	if [[ "$layer" = *-init ]]; then
 		shortid="${shortid}-init"
