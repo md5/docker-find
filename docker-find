@@ -2,8 +2,6 @@
 
 set -e
 
-cd /var/lib/docker
-
 if [[ $# -eq 0 ]]; then
 	echo 2>&1 'Usage: docker-find CONTAINER_OR_IMAGE [FIND ARGUMENTS]'
 	exit 1
@@ -35,6 +33,9 @@ if [[ ${#FIND_PATHS[*]} -eq 0 ]]; then
 	FIND_PATHS=("/")
 fi
 
+: ${DOCKER_LIB:=/var/lib/docker}
+cd "$DOCKER_LIB"
+
 if [[ ! -d aufs/layers ]]; then
 	echo 2>&1 'docker-find only supports AUFS'
 	exit 1
@@ -45,8 +46,8 @@ for layer in $ID $(cat aufs/layers/$ID); do
 	if [[ "$layer" = *-init ]]; then
 		shortid="${shortid}-init"
 	fi
-	find ${FIND_PATHS[*]/#/$(pwd)\/aufs\/diff\/$layer} \
+	find ${FIND_PATHS[*]/#/$DOCKER_LIB\/aufs\/diff\/$layer} \
 		${FIND_OPTIONS[*]} 2>/dev/null \
-		| sed -r "s!$(pwd)/aufs/diff/$layer!$shortid:!" \
+		| sed -r "s!$DOCKER_LIB/aufs/diff/$layer!$shortid:!" \
 		|| true
 done
