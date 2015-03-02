@@ -17,6 +17,14 @@ If you would like to find files on a remote Docker host (including Docker `machi
         -v /var/run/docker.sock:/tmp/docker.sock \
         mdillon/docker-find CONTAINER_OR_IMAGE / -name '*.sh'
 
+This can be added to your `.bash_profile` or equivalent to make it possible to use the first form with a remote host as well:
+
+```shell
+docker-find() {
+	docker run -it --rm -v /var/run/docker.sock:/tmp/docker.sock -v /var/lib/docker:/var/lib/docker:ro mdillon/docker-find "$@"
+}
+```
+
 ## License
 
 MIT
