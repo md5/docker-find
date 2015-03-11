@@ -1,6 +1,6 @@
 # docker-find
 
-Utility to run `find(1)` inside each layer of a Docker image or container. Useful if you want to figure out which layer of a Docker image contributed a particular file or directory.
+Utility to run [`find(1)`](http://www.gnu.org/software/findutils/manual/html_mono/find.html#Invoking-find) inside each layer of a Docker image or container. Useful if you want to figure out which layer of a Docker image contributed a particular file or directory.
 
 **Note**: `docker-find` currently supports only AUFS-based Docker installations. Support for other storage drivers may be added in future revisions.
 
